@@ -41,22 +41,21 @@ This files are organized by environments. For example, if we want to setup a pro
 with two environments (development and production), we could do something like this:
 
 @my-personal-site.yml@
-<pre><code>
-  development:
-    :key_name:          mykeys
-    :availability_zone: eu-west-1a
-    :instance_type:     m1.small
-    :security_group:    my-project-development-web
-    :image_id:          ami-52794c26
-    :on_boot:           script.sh
+<pre><code>development:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     m1.small
+  :security_group:    my-project-development-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
     
-  production:
-    :key_name:          mykeys
-    :availability_zone: eu-west-1a
-    :instance_type:     m1.small
-    :security_group:    my-project-production-web
-    :image_id:          ami-52794c26
-    :on_boot:           script.sh
+production:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     m1.small
+  :security_group:    my-project-production-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
 </code></pre>
     
 Notice that we are saying that we want to run script.sh once the instance is created. This script should be
