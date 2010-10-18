@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+
+require 'rubygems' 
+require 'trollop'
+require 'amazon-instance'
+
+class LaunchAmazon
+  def run
+    options = Trollop::options do
+      opt :environment, 'Environment', :short => '-e',:type => String, :required => true
+      opt :project, 'Project Name', :short => '-p', :type => String, :required => true
+      opt :config_dir, 'Config directory', :short => '-c', :type => String, :default => File.join(File.dirname(__FILE__), '../config')
+      opt :quiet, 'Quiet mode', :short => '-q', :default => true
+    end
+
+    begin
+      instance = AmazonInstance.new(options.environment,
+                                    options.project,
+                                    options.config_dir+'/',
+                                    options.quiet)
+      instance.launch
+    rescue Exception => e
+      puts "\e[31m[error] #{e.message}\e[0m"
+    end
+  end
+end
+
+# Run the application
+app = LaunchAmazon.new
+app.run

@@ -1,0 +1,85 @@
+h1. amazon-instance
+
+amazon-instance is a tool for creating new Amazon EC2 instances. It allows you to organize your instances
+by projects and environments.
+
+h2. Installation
+
+<pre><code>gem install simple_xurrency</code></pre>
+
+h2. Configuration
+
+The configuration directory has got the following structure:
+
+<pre><code>
+  config/
+    general.yml
+    projects/
+      example.yml
+      example2.yml
+      ..
+    on-boot/
+      script.sh
+      script2.sh
+      ..
+</code></pre>
+
+@general.yml@
+
+This file includes the basic configuration.
+
+<pre><code>
+access_key_id: YOUR_ACCESS_KEY
+secret_key_id: YOUR_SECRET_KEY
+ec2_zone_url:  https://eu-west-1.ec2.amazonaws.com
+</code></pre>
+
+@projects/@
+
+Each file defines a particular project. Instance options such as AMI id, type, ... should be provided here.
+This files are organized by environments. For example, if we want to setup a project called "my-personal-site"
+with two environments (development and production), we could do something like this:
+
+@my-personal-site.yml@
+<pre><code>
+  development:
+    :key_name:          mykeys
+    :availability_zone: eu-west-1a
+    :instance_type:     m1.small
+    :security_group:    my-project-development-web
+    :image_id:          ami-52794c26
+    :on_boot:           script.sh
+    
+  production:
+    :key_name:          mykeys
+    :availability_zone: eu-west-1a
+    :instance_type:     m1.small
+    :security_group:    my-project-production-web
+    :image_id:          ami-52794c26
+    :on_boot:           script.sh
+</code></pre>
+    
+Notice that we are saying that we want to run script.sh once the instance is created. This script should be
+placed into the on-boot directory.
+
+h2. Usage
+
+You can launch new Amazon EC2 instances by using the command @amazon-instance@
+
+<pre><code>
+alfonso@alexandra:~$ amazon-instance -h
+Options:
+  --environment, -e <s>:   Environment (Required)
+      --project, -p <s>:   Project (Required)
+   --config-dir, -c <s>:   Config directory (optional)
+            --quiet, -q:   Quiet mode (optional)
+             --help, -h:   Show this message
+</code></pre> 
+
+For example:
+
+<pre><code>alfonso@alexandra:~$ amazon-instance -p my-project -e development</pre></code>
+
+h2. License
+
+See LICENSE for details

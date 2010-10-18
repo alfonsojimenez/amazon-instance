@@ -1,0 +1,31 @@
+dev:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     m1.small
+  :security_group:    example-dev-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
+
+test:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     m1.small
+  :security_group:    example-test-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
+
+qa:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     m1.small
+  :security_group:    example-qa-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
+
+prod:
+  :key_name:          mykeys
+  :availability_zone: eu-west-1a
+  :instance_type:     c1.medium
+  :security_group:    example-prod-web
+  :image_id:          ami-52794c26
+  :on_boot:           script.sh
