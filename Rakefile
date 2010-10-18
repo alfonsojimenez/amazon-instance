@@ -1,9 +1,9 @@
 require 'rubygems'
 require 'rake'
-#require 'rspec'
+require 'rspec'
 
-#gem 'rspec', '>= 2.0.0.beta.20'
-#gem 'rspec-expectations'
+gem 'rspec', '>= 2.0.0.beta.20'
+gem 'rspec-expectations'
 
 require 'rspec/core/rake_task'
 
