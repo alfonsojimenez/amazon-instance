@@ -5,7 +5,7 @@ by projects and environments.
 
 h2. Installation
 
-<pre><code>gem install simple_xurrency</code></pre>
+<pre><code>gem install amazon-instance</code></pre>
 
 h2. Configuration
 
