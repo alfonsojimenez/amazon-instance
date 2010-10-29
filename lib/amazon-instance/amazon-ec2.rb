@@ -3,10 +3,13 @@ require 'socket'
 require 'timeout'
 
 class AmazonEC2
-  def initialize(access_key, secret_key, server)
+  def initialize(access_key, secret_key, ec2_server, elb_server)
     @ec2 = AWS::EC2::Base.new(:access_key_id     => access_key,
                               :secret_access_key => secret_key,
-                              :server            => server)
+                              :server            => ec2_server)
+    @elb = AWS::ELB::Base.new(:access_key_id     => access_key,
+                              :secret_access_key => secret_key,
+                              :server            => elb_server)
   end
   
   def launch_instance(environment, config, config_dir) 
@@ -20,9 +23,13 @@ class AmazonEC2
 
     instance = @ec2.run_instances(config.to_hash)
     
-    instanceId = instance['instancesSet']['item'].first['instanceId']
+    instance_id = instance['instancesSet']['item'].first['instanceId']
 
-    host_by_instance(instanceId)
+    if config[:load_balancer]
+      attach_instance_to_load_balancer(instance_id, config[:load_balancer])
+    end
+
+    host_by_instance(instance_id)
   end
   
   def valid_group?(group_name)
@@ -45,6 +52,11 @@ class AmazonEC2
     end
     
     host
+  end
+  
+  def attach_instance_to_load_balancer(instance_id, load_balancer_name)
+    @elb.register_instances_with_load_balancer(:load_balancer_name => load_balancer_name,
+                                               :instances => [instance_id])
   end
   
   def sleep_till_ssh_is_open(host)

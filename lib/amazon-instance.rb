@@ -23,7 +23,8 @@ class AmazonInstance
   def launch(ec2=nil)
     ec2 = AmazonEC2.new(@config['access_key_id'],
                         @config['secret_key_id'],
-                        URI.parse(@config['ec2_zone_url']).host) if ec2.nil?
+                        URI.parse(@config['ec2_zone_url']).host,
+                        URI.parse(@config['elb_zone_url']).host) if ec2.nil?
 
     group = @project[:security_group]
     
